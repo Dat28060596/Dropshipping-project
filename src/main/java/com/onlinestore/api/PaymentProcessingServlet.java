@@ -5,7 +5,6 @@ import com.onlinestore.model.Payment;
 import com.vnpay.config.Config;
 
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -78,7 +77,7 @@ public class PaymentProcessingServlet extends HttpServlet {
                 // Create new payment record
                 Payment payment = new Payment();
                 payment.setOrderId(orderId);
-                payment.setUserId(userId);
+                payment.setUserId(String.valueOf(userId));
                 payment.setVnpTxnRef(vnp_TxnRef);
                 payment.setVnpAmount(amount);
                 payment.setVnpOrderInfo(orderInfo != null ? orderInfo : "Payment for order " + orderId);
@@ -126,14 +125,14 @@ public class PaymentProcessingServlet extends HttpServlet {
         
         String vnp_Version = "2.1.0";
         String vnp_Command = "pay";
-        String vnp_TmnCode = Config.vnp_TmnCode; // Your VNPAY merchant code
+        String vnp_TmnCode = Config.vnp_TmnCode; 
         String vnp_CurrCode = "VND";
         String vnp_Locale = "vn";
         String vnp_OrderType = "other";
         
         // Get return URL from config
-        String vnp_ReturnUrl = Config.vnp_ReturnUrl; // e.g., http://localhost:8080/vnpay_return.jsp
-        String vnp_IpnUrl = Config.vnp_IpnUrl;       // e.g., http://localhost:8080/vnpay_ipn.jsp
+        String vnp_ReturnUrl = Config.vnp_ReturnUrl; 
+        String vnp_IpnUrl = Config.vnp_IpnUrl;       
         
         Map<String, String> vnp_Params = new HashMap<>();
         vnp_Params.put("vnp_Version", vnp_Version);
