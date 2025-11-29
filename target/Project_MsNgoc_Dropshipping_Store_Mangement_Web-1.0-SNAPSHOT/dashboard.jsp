@@ -577,6 +577,11 @@
                 </div>
                 <div class="user-section">
                     <span class="welcome-text">Welcome, <%= user.getFullName() %>!</span>
+
+                    <a href="${pageContext.request.contextPath}/home" class="btn-logout" style="color: var(--primary-color); border-color: var(--primary-color);">
+                        <i class="fa-solid fa-house"></i> Home
+                    </a>
+
                     <a href="<%= LINK_LOGOUT %>" class="btn-logout">Logout</a>
                 </div>
             </div>
