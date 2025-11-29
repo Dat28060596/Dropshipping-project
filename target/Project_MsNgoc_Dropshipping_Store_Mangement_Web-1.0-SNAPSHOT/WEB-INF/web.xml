@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee 
+         http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+         version="4.0">
+
+    <!-- Display Name -->
+    <display-name>E-Commerce Order Management System</display-name>
+
+    <!-- Database Configuration -->
+    <context-param>
+        <param-name>jdbcURL</param-name>
+        <param-value>jdbc:postgresql://db.kdvnogkvnpvbnedsmoui.supabase.co:5432/postgres</param-value>
+    </context-param>
+    <context-param>
+        <param-name>jdbcUsername</param-name>
+        <param-value>postgres</param-value>
+    </context-param>
+    <context-param>
+        <param-name>jdbcPassword</param-name>
+        <param-value>thisisnotai123</param-value>
+    </context-param>
+
+    <!-- JWT Configuration -->
+    <context-param>
+        <param-name>jwtSecret</param-name>
+        <param-value>your_very_long_random_secret_key_at_least_32_characters_here_for_hs256</param-value>
+    </context-param>
+    <context-param>
+        <param-name>jwtExpiration</param-name>
+        <param-value>3600000</param-value>
+    </context-param>
+
+    <!-- CORS FILTER -->
+    <filter>
+        <filter-name>CorsFilter</filter-name>
+        <filter-class>com.security.filter.CorsFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>CorsFilter</filter-name>
+        <url-pattern>/api/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+    </filter-mapping>
+
+    <!-- JWT AUTHENTICATION FILTER -->
+    <filter>
+        <filter-name>JwtAuthFilter</filter-name>
+        <filter-class>com.security.filter.JwtAuthFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>JwtAuthFilter</filter-name>
+        <url-pattern>/api/orders/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>JwtAuthFilter</filter-name>
+        <url-pattern>/api/admin/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>JwtAuthFilter</filter-name>
+        <url-pattern>/api/staff/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+    </filter-mapping>
+
+    <!-- AUTHENTICATION API SERVLET -->
+    <servlet>
+        <servlet-name>AuthApiServlet</servlet-name>
+        <servlet-class>com.security.api.AuthApiServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AuthApiServlet</servlet-name>
+        <url-pattern>/api/auth/*</url-pattern>
+    </servlet-mapping>
+
+
+    <!-- SETTINGS API SERVLET -->
+    <servlet>
+        <servlet-name>SettingsApiServlet</servlet-name>
+        <servlet-class>com.security.api.SettingsApiServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SettingsApiServlet</servlet-name>
+        <url-pattern>/api/settings/*</url-pattern>
+    </servlet-mapping>
+
+    <!-- PAYMENT PROCESSING SERVLET -->
+    <servlet>
+        <servlet-name>PaymentProcessingServlet</servlet-name>
+        <servlet-class>com.onlinestore.api.PaymentProcessingServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PaymentProcessingServlet</servlet-name>
+        <url-pattern>/api/payment/process</url-pattern>
+    </servlet-mapping>
+
+    <!-- SESSION CONFIGURATION -->
+    <session-config>
+        <tracking-mode>COOKIE</tracking-mode>
+        <cookie-config>
+            <http-only>true</http-only>
+            <secure>false</secure>
+        </cookie-config>
+        <timeout>30</timeout>
+    </session-config>
+
+    <!-- WELCOME FILES -->
+    <welcome-file-list>
+        <welcome-file>landing.jsp</welcome-file>
+        <welcome-file>dashboard.jsp</welcome-file>
+    </welcome-file-list>
+
+    <!-- ERROR PAGES -->
+    <error-page>
+        <error-code>404</error-code>
+        <location>/error404.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/error500.jsp</location>
+    </error-page>
+
+</web-app>
