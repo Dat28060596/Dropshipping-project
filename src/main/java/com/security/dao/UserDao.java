@@ -12,13 +12,15 @@ import com.security.util.PasswordUtil;
 
 public class UserDao {
 
-    private final String jdbcURL = "jdbc:postgresql://db.kdvnogkvnpvbnedsmoui.supabase.co:5432/postgres";
-    private final String jdbcUser = "postgres";
-    private final String jdbcPass = "thisisnotai123";
+    // NEW - update to use pooler
+    String url = "jdbc:postgresql://aws-1-ap-southeast-1.pooler.supabase.com:6543/postgres?prepareThreshold=0";
+    String user = "postgres.kdvnogkvnpvbnedsmoui";  // Must include project reference
+    String pass = "thisisnotai123";
+
 
     private Connection getConnection() throws Exception {
         Class.forName("org.postgresql.Driver");
-        return DriverManager.getConnection(jdbcURL, jdbcUser, jdbcPass);
+        return DriverManager.getConnection(url, user, pass);
     }
 
     /**

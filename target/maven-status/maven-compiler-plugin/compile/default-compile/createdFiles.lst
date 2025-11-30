@@ -7,6 +7,7 @@ com\onlinestore\model\Product.class
 com\onlinestore\util\dichvuvanchuyen.class
 com\mycompany\project_msngoc_dropshipping_store_mangement_web\resources\JakartaEE10Resource.class
 com\security\dao\UserDao.class
+com\onlinestore\model\ProductVariant.class
 com\security\util\PasswordUtil.class
 com\mycompany\project_msngoc_dropshipping_store_mangement_web\JakartaRestConfiguration.class
 com\vnpay\api\PaymentServlet.class
@@ -15,6 +16,7 @@ com\security\filter\JwtAuthFilter.class
 com\onlinestore\api\AnalyticsServlet.class
 com\onlinestore\api\CartServlet.class
 com\onlinestore\model\CartItem.class
+com\onlinestore\model\User.class
 com\web\LandingPageServlet.class
 com\security\web\LoginController.class
 com\security\api\SettingsApiServlet$UserUpdateDTO.class
@@ -23,6 +25,7 @@ com\security\api\AuthApiServlet.class
 com\vnpay\config\Config.class
 com\vnpay\util\VNPayUtil.class
 com\onlinestore\api\PaymentProcessingServlet.class
+com\onlinestore\model\StockAlert.class
 com\security\filter\CorsFilter.class
 com\onlinestore\util\DBConnection.class
 com\security\dto\RegisterRequest.class
@@ -30,6 +33,7 @@ com\onlinestore\api\CheckoutServlet.class
 com\config\AppConfig.class
 com\onlinestore\dao\PaymentDAO.class
 com\vnpay\api\VNPayReturnServlet.class
+com\onlinestore\controller\ProductManagementServlet.class
 com\onlinestore\api\HomeServlet.class
 com\security\api\SettingsApiServlet.class
 com\vnpay\common\ajaxServlet.class

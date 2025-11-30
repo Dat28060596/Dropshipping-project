@@ -1,5 +1,8 @@
 package com.onlinestore.model;
 
+import java.util.List;
+import java.util.Date;
+
 public class Product {
     private int id;
     private String name;
@@ -10,6 +13,17 @@ public class Product {
     private int supplierId; 
     private int categoryId; 
     private String categoryName;
+    
+    // NEW FIELDS - Added for enhanced product catalog management
+    private String detailedDescription;
+    private boolean hasVariants;
+    private String specifications; // JSON string
+    private String[] tags;
+    private List<ProductVariant> variants;
+    private boolean isActive;
+    private Date createdAt;
+    private Date updatedAt;
+    
 
     public Product() {}
 
@@ -47,4 +61,34 @@ public class Product {
 
     public String getCategoryName() { return categoryName; }
     public void setCategoryName(String categoryName) { this.categoryName = categoryName; }
+    
+    // NEW GETTERS AND SETTERS
+    
+    public String getDetailedDescription() { return detailedDescription; }
+    public void setDetailedDescription(String detailedDescription) { 
+        this.detailedDescription = detailedDescription; 
+    }
+    
+    public boolean isHasVariants() { return hasVariants; }
+    public void setHasVariants(boolean hasVariants) { this.hasVariants = hasVariants; }
+    
+    public String getSpecifications() { return specifications; }
+    public void setSpecifications(String specifications) { 
+        this.specifications = specifications; 
+    }
+    
+    public String[] getTags() { return tags; }
+    public void setTags(String[] tags) { this.tags = tags; }
+    
+    public List<ProductVariant> getVariants() { return variants; }
+    public void setVariants(List<ProductVariant> variants) { this.variants = variants; }
+    
+    public boolean isActive() { return isActive; }
+    public void setActive(boolean active) { isActive = active; }
+    
+    public Date getCreatedAt() { return createdAt; }
+    public void setCreatedAt(Date createdAt) { this.createdAt = createdAt; }
+    
+    public Date getUpdatedAt() { return updatedAt; }
+    public void setUpdatedAt(Date updatedAt) { this.updatedAt = updatedAt; }
 }

@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,36 +40,44 @@ public class CartServlet extends HttpServlet {
             session.setAttribute("cart", cart);
         }
 
-        if ("add".equals(action)) {
-            int productId = Integer.parseInt(request.getParameter("productId"));
-            int quantity = Integer.parseInt(request.getParameter("quantity"));
+        // FIX: Wrap database operations in try-catch
+        try {
+            if ("add".equals(action)) {
+                int productId = Integer.parseInt(request.getParameter("productId"));
+                int quantity = Integer.parseInt(request.getParameter("quantity"));
+                
+                boolean found = false;
+                for (CartItem item : cart) {
+                    if (item.getProduct().getId() == productId) {
+                        item.setQuantity(item.getQuantity() + quantity);
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (!found) {
+                    // FIX: Handle SQLException from getProductById
+                    Product p = productDAO.getProductById(productId);
+                    if (p != null) {
+                        cart.add(new CartItem(p, quantity));
+                    }
+                }
+
+                response.sendRedirect(request.getContextPath() + "/home_servlet?msg=added");
+                return; 
+            } 
+            else if ("remove".equals(action)) {
+                int productId = Integer.parseInt(request.getParameter("productId"));
+                cart.removeIf(item -> item.getProduct().getId() == productId);
+                response.sendRedirect(request.getContextPath() + "/cart");
+                return;
+            }
             
-            boolean found = false;
-            for (CartItem item : cart) {
-                if (item.getProduct().getId() == productId) {
-                    item.setQuantity(item.getQuantity() + quantity);
-                    found = true;
-                    break;
-                }
-            }
-
-            if (!found) {
-                Product p = productDAO.getProductById(productId);
-                if (p != null) {
-                    cart.add(new CartItem(p, quantity));
-                }
-            }
-
-            response.sendRedirect(request.getContextPath() + "/home?msg=added");
-            return; 
-        } 
-        else if ("remove".equals(action)) {
-            int productId = Integer.parseInt(request.getParameter("productId"));
-            cart.removeIf(item -> item.getProduct().getId() == productId);
             response.sendRedirect(request.getContextPath() + "/cart");
-            return;
+            
+        } catch (SQLException e) {
+            // Handle database error
+            throw new ServletException("Database error while processing cart", e);
         }
-        
-        response.sendRedirect(request.getContextPath() + "/cart");
     }
 }

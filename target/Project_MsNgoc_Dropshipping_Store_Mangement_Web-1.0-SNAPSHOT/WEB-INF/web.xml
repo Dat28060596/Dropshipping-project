@@ -120,5 +120,16 @@
         <error-code>500</error-code>
         <location>/error500.jsp</location>
     </error-page>
+    
+    <servlet>
+    <servlet-name>HomeServlet</servlet-name>
+    <servlet-class>com.onlinestore.api.HomeServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>HomeServlet</servlet-name>
+        <url-pattern>/home_servlet</url-pattern>
+    </servlet-mapping>
+
 
 </web-app>

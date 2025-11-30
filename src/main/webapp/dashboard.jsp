@@ -638,10 +638,10 @@
                     </a>
                         
                      <!-- Payment Processing -->
-                    <a href="<%= LINK_PAYMENT %>" class="feature-card payment-card">
-                        <div class="feature-icon">🔒</div>
-                        <h3>Secure Payment</h3>
-                        <p>Process transactions with multiple payment gateways (VN Pay, Stripe, PayPal, Momo)</p>
+                    <a href="${pageContext.request.contextPath}/home_servlet" class="feature-card payment-card">
+                        <div class="feature-icon">🛒</div>
+                        <h3>Product</h3>
+                        <p>Cart</p>
                         <div class="feature-arrow">→</div>
                     </a>
                 </div>

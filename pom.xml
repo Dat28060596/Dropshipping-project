@@ -19,7 +19,20 @@
             <version>${jakartaee}</version>
             <scope>provided</scope>
         </dependency>
-        
+         <!-- Add Jakarta JSTL API -->
+        <dependency>
+            <groupId>jakarta.servlet.jsp.jstl</groupId>
+            <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+
+        <!-- Add JSTL Implementation (Glassfish) -->
+        <dependency>
+            <groupId>org.glassfish.web</groupId>
+            <artifactId>jakarta.servlet.jsp.jstl</artifactId>
+            <version>3.0.1</version>
+        </dependency>
+
         <!-- BCrypt Password Hashing-->
         <dependency>
         <groupId>org.mindrot</groupId>
