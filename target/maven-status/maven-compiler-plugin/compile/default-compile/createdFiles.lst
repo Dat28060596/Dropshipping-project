@@ -32,5 +32,6 @@ com\onlinestore\dao\PaymentDAO.class
 com\vnpay\api\VNPayReturnServlet.class
 com\onlinestore\api\HomeServlet.class
 com\security\api\SettingsApiServlet.class
+com\vnpay\common\ajaxServlet.class
 com\security\dto\AuthResponse.class
 com\onlinestore\model\Order.class

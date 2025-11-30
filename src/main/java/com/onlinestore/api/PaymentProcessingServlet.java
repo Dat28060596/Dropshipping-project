@@ -192,7 +192,7 @@ public class PaymentProcessingServlet extends HttpServlet {
         }
         
         String queryUrl = query.toString();
-        String vnp_SecureHash = Config.hmacSHA512(Config.secretKey, hashData.toString());
+        String vnp_SecureHash = Config.hmacSHA512(Config.vnp_HashSecret, hashData.toString());
         queryUrl += "&vnp_SecureHash=" + vnp_SecureHash;
         
         return Config.vnp_PayUrl + "?" + queryUrl;

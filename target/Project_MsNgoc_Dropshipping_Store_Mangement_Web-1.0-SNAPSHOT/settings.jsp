@@ -16,22 +16,28 @@
     <title>Settings - Dropshipping Store Management</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Similar styles as other pages */
+        /* LIGHT THEME STYLES */
         :root {
+            /* Brand Colors */
             --primary-color: #6366f1;
             --secondary-color: #8b5cf6;
-            --success-color: #10b981;
-            --danger-color: #ef4444;
-            --warning-color: #f59e0b;
-            --info-color: #3b82f6;
-            --dark-bg: #0f172a;
-            --card-bg: #1e293b;
-            --input-bg: #0f172a;
-            --border-color: #334155;
-            --text-primary: #f1f5f9;
-            --text-secondary: #cbd5e1;
-            --shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.1);
+            
+            /* Backgrounds - LIGHT */
+            --bg-main: #f8fafc;       /* Light Slate/Gray background */
+            --bg-card: #ffffff;       /* Pure White for forms */
+            --bg-input: #ffffff;      /* White inputs */
+            --bg-disabled: #f1f5f9;   /* Light gray for read-only inputs */
+            
+            /* Borders */
+            --border-color: #e2e8f0;
+            
+            /* Text - DARK */
+            --text-primary: #1e293b;  /* Dark Slate for headings/inputs */
+            --text-secondary: #64748b;/* Muted Gray for labels */
+            
+            /* Shadows - Softened for light mode */
+            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+            --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
         }
 
         * {
@@ -42,8 +48,7 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            background-attachment: fixed;
+            background: var(--bg-main);
             color: var(--text-primary);
             min-height: 100vh;
         }
@@ -57,6 +62,7 @@
             color: var(--text-secondary);
             text-decoration: none;
             font-weight: 500;
+            transition: color 0.2s;
         }
 
         .navbar a:hover { color: var(--primary-color); }
@@ -76,13 +82,18 @@
             font-size: 42px;
             font-weight: 700;
             margin-bottom: 10px;
+            /* Gradient text remains consistent */
             background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
+        
+        .settings-header p {
+            color: var(--text-secondary);
+        }
 
         .settings-form {
-            background: var(--card-bg);
+            background: var(--bg-card);
             padding: 30px;
             border-radius: 16px;
             box-shadow: var(--shadow);
@@ -98,22 +109,32 @@
             margin-bottom: 8px;
             color: var(--text-secondary);
             font-weight: 500;
+            font-size: 0.95rem;
         }
 
         .form-control {
             width: 100%;
             padding: 12px;
-            background: var(--input-bg);
+            background: var(--bg-input);
             border: 1px solid var(--border-color);
             border-radius: 8px;
             color: var(--text-primary);
             font-size: 16px;
-            transition: border-color 0.3s;
+            transition: all 0.3s;
         }
 
         .form-control:focus {
             outline: none;
             border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1); /* Subtle focus ring */
+        }
+        
+        /* Specific style for disabled read-only inputs */
+        .form-control:disabled {
+            background-color: var(--bg-disabled);
+            color: var(--text-secondary);
+            cursor: not-allowed;
+            border-color: var(--border-color);
         }
 
         .submit-btn {
@@ -126,12 +147,14 @@
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            transition: transform 0.2s;
+            transition: transform 0.2s, box-shadow 0.2s;
             margin-top: 10px;
+            box-shadow: 0 4px 6px -1px rgba(99, 102, 241, 0.4);
         }
 
         .submit-btn:hover {
             transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.5);
         }
 
         .alert {
@@ -139,24 +162,26 @@
             border-radius: 8px;
             margin-bottom: 20px;
             display: none;
+            font-weight: 500;
         }
 
+        /* Updated Alert Colors for Light Mode visibility */
         .alert-success {
-            background: rgba(16, 185, 129, 0.2);
-            color: #a7f3d0;
-            border: 1px solid rgba(16, 185, 129, 0.3);
+            background: #dcfce7; /* Very light green */
+            color: #166534;      /* Dark green text */
+            border: 1px solid #bbf7d0;
         }
 
         .alert-error {
-            background: rgba(239, 68, 68, 0.2);
-            color: #fecaca;
-            border: 1px solid rgba(239, 68, 68, 0.3);
+            background: #fee2e2; /* Very light red */
+            color: #991b1b;      /* Dark red text */
+            border: 1px solid #fecaca;
         }
     </style>
 </head>
 <body>
     <div class="navbar">
-        <a href="<%= LINK_DASHBOARD %>">← Back to Dashboard</a>
+        <a href="<%= LINK_DASHBOARD %>"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
     </div>
 
     <div class="settings-container">
@@ -171,8 +196,7 @@
         <form id="settingsForm" class="settings-form">
             <div class="form-group">
                 <label for="username">Username (Read-only)</label>
-                <input type="text" id="username" class="form-control" value="<%= user.getUsername() %>" disabled 
-                       style="opacity: 0.7; cursor: not-allowed;">
+                <input type="text" id="username" class="form-control" value="<%= user.getUsername() %>" disabled>
             </div>
             <div class="form-group">
                 <label for="fullName">Full Name</label>
@@ -236,6 +260,7 @@
             };
 
             try {
+                // Note: Ensure your Context Path is correct in the actual implementation
                 const response = await fetch('<%= request.getContextPath() %>/api/settings/update', {
                     method: 'POST',
                     headers: {
@@ -256,18 +281,18 @@
                 }
             } catch (error) {
                 console.error('Error:', error);
-                showError("An unexpected error occurred.");
+                showError("An unexpected error occurred. Please check console.");
             }
         });
 
         function showSuccess(msg) {
-            successMsg.textContent = msg;
+            successMsg.innerHTML = '<i class="fas fa-check-circle"></i> ' + msg;
             successMsg.style.display = 'block';
             setTimeout(() => successMsg.style.display = 'none', 5000);
         }
 
         function showError(msg) {
-            errorMsg.textContent = msg;
+            errorMsg.innerHTML = '<i class="fas fa-exclamation-circle"></i> ' + msg;
             errorMsg.style.display = 'block';
         }
     </script>

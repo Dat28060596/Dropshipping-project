@@ -577,11 +577,6 @@
                 </div>
                 <div class="user-section">
                     <span class="welcome-text">Welcome, <%= user.getFullName() %>!</span>
-
-                    <a href="${pageContext.request.contextPath}/home" class="btn-logout" style="color: var(--primary-color); border-color: var(--primary-color);">
-                        <i class="fa-solid fa-house"></i> Home
-                    </a>
-
                     <a href="<%= LINK_LOGOUT %>" class="btn-logout">Logout</a>
                 </div>
             </div>
@@ -617,6 +612,7 @@
             <section class="features-section">
                 <h2>Core Features</h2>
                 <div class="features-grid">
+                    
                     <!-- Payment Processing -->
                     <a href="<%= LINK_PAYMENT %>" class="feature-card payment-card">
                         <div class="feature-icon">🔒</div>
@@ -638,6 +634,14 @@
                         <div class="feature-icon">⚙️</div>
                         <h3>Settings</h3>
                         <p>Configure store settings and preferences</p>
+                        <div class="feature-arrow">→</div>
+                    </a>
+                        
+                     <!-- Payment Processing -->
+                    <a href="<%= LINK_PAYMENT %>" class="feature-card payment-card">
+                        <div class="feature-icon">🔒</div>
+                        <h3>Secure Payment</h3>
+                        <p>Process transactions with multiple payment gateways (VN Pay, Stripe, PayPal, Momo)</p>
                         <div class="feature-arrow">→</div>
                     </a>
                 </div>

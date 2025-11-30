@@ -45,7 +45,7 @@ public class VNPayReturnServlet extends HttpServlet {
         fields.remove("vnp_SecureHash");
         
         // Tính toán secure hash để verify
-        String signValue = VNPayUtil.hashAllFields(fields, Config.secretKey);
+        String signValue = VNPayUtil.hashAllFields(fields, Config.vnp_HashSecret);
         
         // Lấy các thông tin từ response
         String vnp_ResponseCode = request.getParameter("vnp_ResponseCode");

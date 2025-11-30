@@ -9,7 +9,7 @@
 <body>
 
     <div class="main-header">
-        <a href="${pageContext.request.contextPath}/home" class="brand">DSP Store</a>
+        <a href="${pageContext.request.contextPath}/home_servlet" class="brand">DSP Store</a>
         <div class="nav-links">
             <c:if test="${sessionScope.currentUser != null}">
                 <span>Welcome, ${sessionScope.currentUser.username}</span>

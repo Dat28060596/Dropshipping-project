@@ -74,7 +74,7 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response)
             
             // Build query string and hash
             String queryUrl = VNPayUtil.createQueryString(vnp_Params);
-            String vnp_SecureHash = VNPayUtil.hmacSHA512(Config.secretKey, queryUrl);
+            String vnp_SecureHash = VNPayUtil.hmacSHA512(Config.vnp_HashSecret, queryUrl);
             queryUrl += "&vnp_SecureHash=" + vnp_SecureHash;
             
             String paymentUrl = Config.vnp_PayUrl + "?" + queryUrl;

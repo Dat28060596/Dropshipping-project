@@ -15,57 +15,74 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>New Analytics Dashboard - Dropshipping Store Management</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script> <!-- Updated to latest Chart.js -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"> <!-- Updated Font Awesome -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        /* Modernized Styles with Improved Layout and Responsiveness */
+        /* LIGHT THEME STYLES */
         :root {
+            /* Brand Colors (Kept mostly the same, just tweaked for white bg contrast) */
             --primary: #4f46e5;
             --secondary: #7c3aed;
-            --success: #22c55e;
-            --danger: #ef4444;
-            --warning: #eab308;
-            --info: #3b82f6;
-            --bg-dark: #111827;
-            --bg-card: #1f2937;
-            --input-bg: #111827;
-            --border: #374151;
-            --text-main: #f3f4f6;
-            --text-sub: #9ca3af;
-            --shadow-lg: 0 10px 30px rgba(0,0,0,0.25);
-            --shadow-md: 0 4px 10px rgba(0,0,0,0.15);
+            --success: #16a34a;
+            --danger: #dc2626;
+            --warning: #ca8a04;
+            --info: #2563eb;
+
+            /* Backgrounds - INVERTED */
+            --bg-dark: #f3f4f6;   /* Page background (Light Gray) */
+            --bg-card: #ffffff;   /* Card background (White) */
+            --input-bg: #ffffff;
+            
+            /* Borders */
+            --border: #e5e7eb;    /* Light gray border */
+
+            /* Text - INVERTED */
+            --text-main: #111827; /* Dark text for main content */
+            --text-sub: #6b7280;  /* Muted gray for secondary text */
+
+            /* Shadows - Softer for light theme */
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
-            font-family: 'Inter', sans-serif; /* Modern font */
-            background: linear-gradient(145deg, #111827 0%, #1f2937 100%);
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-dark); /* Uses light gray now */
             color: var(--text-main);
             min-height: 100vh;
             line-height: 1.5;
         }
+
         .container {
             max-width: 1440px;
             margin: 0 auto;
             padding: 2rem 1rem;
         }
+
         .header {
             text-align: center;
             margin-bottom: 2.5rem;
         }
+
         .header h1 {
             font-size: 2.5rem;
             background: linear-gradient(90deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            /* Added drop shadow to make text pop on white if needed, removed for clean look */
         }
+
         .header p {
             color: var(--text-sub);
             font-size: 1.1rem;
         }
+
         .export-buttons {
             display: flex;
             flex-wrap: wrap;
@@ -73,9 +90,10 @@
             justify-content: center;
             margin-bottom: 3rem;
         }
+
         .export-btn {
             padding: 0.75rem 1.5rem;
-            background: linear-gradient(90deg, var(--success), #16a34a);
+            background: linear-gradient(90deg, var(--success), #15803d);
             color: white;
             border: none;
             border-radius: 0.5rem;
@@ -84,75 +102,95 @@
             transition: all 0.2s;
             box-shadow: var(--shadow-md);
         }
+
         .export-btn:hover {
             transform: scale(1.05);
             box-shadow: var(--shadow-lg);
         }
+
         .metrics-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 1.5rem;
             margin-bottom: 3rem;
         }
+
         .metric {
-            background: var(--bg-card);
+            background: var(--bg-card); /* Now White */
             padding: 1.5rem;
             border-radius: 0.75rem;
             box-shadow: var(--shadow-md);
             text-align: center;
             transition: transform 0.2s;
+            border: 1px solid var(--border); /* Added border for definition on light bg */
         }
+
         .metric:hover {
             transform: translateY(-5px);
         }
+
         .metric h3 {
             font-size: 0.9rem;
             color: var(--text-sub);
             margin-bottom: 0.5rem;
         }
+
         .metric-value {
             font-size: 1.8rem;
             font-weight: bold;
             color: var(--primary);
         }
+
         .metric-trend {
             font-size: 0.8rem;
             margin-top: 0.25rem;
         }
+
         .trend-up { color: var(--success); }
         .trend-down { color: var(--danger); }
+
         .report {
-            background: var(--bg-card);
+            background: var(--bg-card); /* Now White */
             padding: 2rem;
             border-radius: 1rem;
             margin-bottom: 2.5rem;
             box-shadow: var(--shadow-md);
+            border: 1px solid var(--border); /* Added border */
         }
+
         .report h2 {
             font-size: 1.5rem;
             margin-bottom: 1.5rem;
             border-bottom: 1px solid var(--border);
             padding-bottom: 0.75rem;
+            color: var(--text-main);
         }
+
         .report-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 2rem;
         }
+
         .chart-wrap {
-            background: rgba(79, 70, 229, 0.05);
+            background: #f8fafc; /* Very light slate for chart background area */
             padding: 1rem;
             border-radius: 0.5rem;
+            border: 1px solid var(--border);
         }
+
         .details h3 {
             font-size: 1.1rem;
             margin-bottom: 1rem;
+            color: var(--text-main);
         }
+
         .table {
             width: 100%;
             border-collapse: separate;
             border-spacing: 0 0.5rem;
         }
+
         .table th {
             text-align: left;
             padding: 0.75rem;
@@ -160,30 +198,44 @@
             color: var(--text-sub);
             text-transform: uppercase;
         }
+
         .table td {
             padding: 0.75rem;
-            background: rgba(0,0,0,0.2);
+            background: #f9fafb; /* Changed from dark rgba to light gray */
             border-radius: 0.25rem;
+            color: var(--text-main);
+            border: 1px solid transparent; /* Keeps alignment */
         }
+        
+        /* Slight hover effect for table rows */
+        .table tr:hover td {
+            background: #f3f4f6;
+            border-color: var(--border);
+        }
+
         .badge {
             padding: 0.25rem 0.75rem;
             border-radius: 999px;
             font-size: 0.75rem;
-            font-weight: 500;
+            font-weight: 600;
         }
-        .badge-green { background: rgba(34,197,94,0.2); color: var(--success); }
-        .badge-yellow { background: rgba(234,179,8,0.2); color: var(--warning); }
-        .badge-red { background: rgba(239,68,68,0.2); color: var(--danger); }
+
+        /* Adjusted badge backgrounds to be slightly darker for visibility on white */
+        .badge-green { background: #dcfce7; color: #166534; }
+        .badge-yellow { background: #fef9c3; color: #854d0e; }
+        .badge-red { background: #fee2e2; color: #991b1b; }
+
         @media (max-width: 1024px) {
             .report-grid { grid-template-columns: 1fr; }
         }
+
         @media print {
             body { background: white; color: black; }
             .export-buttons { display: none; }
-            .report { box-shadow: none; background: white; }
-            .metric { background: white; border: 1px solid #ccc; }
-            .chart-wrap { background: white; }
-            .table td { background: #f9f9f9; }
+            .report { box-shadow: none; border: none; }
+            .metric { border: 1px solid #ccc; box-shadow: none; }
+            .chart-wrap { background: white; border: none; }
+            .table td { background: white; border-bottom: 1px solid #ddd; }
         }
     </style>
 </head>
@@ -302,6 +354,10 @@
     </div>
 
     <script>
+        // Chart defaults - ensuring text color is visible in light mode
+        Chart.defaults.color = '#4b5563'; 
+        Chart.defaults.borderColor = '#e5e7eb';
+
         const options = {
             responsive: true,
             plugins: { legend: { position: 'top' } }
@@ -311,7 +367,7 @@
             type: 'line',
             data: {
                 labels: ['Sep', 'Oct', 'Nov'],
-                datasets: [{ label: 'Sales', data: [45, 58, 125], borderColor: 'rgb(79,70,229)', fill: true }]
+                datasets: [{ label: 'Sales', data: [45, 58, 125], borderColor: 'rgb(79,70,229)', backgroundColor: 'rgba(79,70,229,0.1)', fill: true }]
             },
             options
         });
