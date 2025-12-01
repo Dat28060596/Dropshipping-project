@@ -274,35 +274,34 @@
 <body>
 
     <div class="main-header">
-        <a href="${pageContext.request.contextPath}/home" class="brand">DSP Store</a>
+        <a href="${pageContext.request.contextPath}/home_servlet" class="brand">DSP Store</a>
         <div class="nav-links">
-            <a href="${pageContext.request.contextPath}/home">Home</a>
+            <a href="${pageContext.request.contextPath}/home_servlet">Home</a>
             <a href="${pageContext.request.contextPath}/my-orders">My Orders</a>
-            <a href="${pageContext.request.contextPath}/profile">Profile</a>
-            <a href="${pageContext.request.contextPath}/logout" class="logout-link">Logout</a>
+            
         </div>
     </div>
 
     <div class="cart-container">
-        <h1 class="cart-title">
-            <i class="fa-solid fa-cart-shopping"></i> Shopping Cart
+        <h1 style="border-bottom: 2px solid #e3f2fd; padding-bottom: 10px; margin-bottom: 20px;">
+            <i class="fa-solid fa-cart-shopping" style="color: #1565c0;"></i> Shopping Cart
         </h1>
 
         <c:if test="${param.error == 'stock'}">
-            <div class="alert alert-error">
+            <div style="background-color: #f8d7da; color: #721c24; padding: 15px; border-radius: 6px; margin-bottom: 20px;">
                 ⚠️ Some items in your cart are out of stock. Please remove them or reduce quantity.
             </div>
         </c:if>
         <c:if test="${param.error == 'missing_info'}">
-            <div class="alert alert-warning">
+            <div style="background-color: #fff3cd; color: #856404; padding: 15px; border-radius: 6px; margin-bottom: 20px;">
                 ⚠️ Please provide both Phone Number and Address to checkout.
             </div>
         </c:if>
 
         <c:if test="${empty sessionScope.cart}">
-            <div class="empty-cart-view">
-                <i class="fa-solid fa-basket-shopping"></i>
-                <p>Your cart is empty.</p>
+            <div style="text-align: center; padding: 50px;">
+                <i class="fa-solid fa-basket-shopping" style="font-size: 60px; color: #ccc;"></i>
+                <p style="font-size: 18px; color: #666;">Your cart is empty.</p>
                 <a href="${pageContext.request.contextPath}/home" class="btn btn-primary">Go Shopping</a>
             </div>
         </c:if>
@@ -322,10 +321,10 @@
                     <c:set var="grandTotal" value="0" />
                     <c:forEach var="item" items="${sessionScope.cart}">
                         <tr>
-                            <td class="product-name">${item.product.name}</td>
+                            <td style="font-weight: 500;">${item.product.name}</td>
                             <td>$${item.product.price}</td>
                             <td>${item.quantity}</td>
-                            <td class="total-price">
+                            <td style="color: #28a745; font-weight: bold;">
                                 <fmt:formatNumber value="${item.totalPrice}" type="currency" currencySymbol="$" minFractionDigits="2" maxFractionDigits="2" />
                             </td>
                             <td>
@@ -342,27 +341,29 @@
             </table>
 
             <div class="total-section">
-                Grand Total: <span class="grand-total-highlight">
+                Grand Total: <span style="color: #1565c0;">
                     <fmt:formatNumber value="${grandTotal}" type="currency" currencySymbol="$" minFractionDigits="2" maxFractionDigits="2" />
                 </span>
             </div>
 
-            <div class="shipping-section">
-                <h3>Shipping Information</h3>
+            <div style="margin-top: 30px; background-color: #f8f9fa; padding: 25px; border-radius: 8px;">
+                <h3 style="margin-top: 0; color: #333;">Shipping Information</h3>
                 
                 <form action="${pageContext.request.contextPath}/order/checkout-cart" method="post">
                     
-                    <label class="form-label">Contact Phone:</label>
-                    <input type="tel" name="phone" class="form-input" 
-                           value="${sessionScope.currentUser.phone}" required 
+                    <label style="display:block; margin-bottom:8px; font-weight:bold;">Contact Phone:</label>
+                    <input type="tel" name="phone" value="${sessionScope.currentUser.phone}" required 
+                           style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; margin-bottom: 15px;"
                            placeholder="090...">
 
-                    <label class="form-label">Delivery Address:</label>
-                    <textarea name="address" rows="3" class="form-input" 
-                              required placeholder="123 Main St..."></textarea>
+                    <label style="display:block; margin-bottom:8px; font-weight:bold;">Delivery Address:</label>
+                    <textarea name="address" rows="3" required 
+                              style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; margin-bottom: 20px; font-family: inherit;" 
+                              placeholder="123 Main St..."></textarea>
                     
-                    <div class="action-buttons">
-                        <a href="${pageContext.request.contextPath}/home" class="btn btn-continue">Continue Shopping</a>
+                    <div style="display: flex; justify-content: center; gap: 15px;">
+                        <a href="${pageContext.request.contextPath}/home_servlet" class="btn btn-continue">Continue Shopping</a>
+                        
                         <button type="submit" class="btn btn-checkout">Checkout All</button>
                     </div>
                 </form>
