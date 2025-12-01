@@ -7,10 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Account - Dropshipping</title>
 
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-    <!-- Bootstrap -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
 
     <style>
@@ -19,11 +17,16 @@
             margin: 0;
             padding: 0;
             min-height: 100vh;
-            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            /* Changed to light grey to make the white card pop */
+            background-color: #f8f9fa; 
+            color: #333;
             display: flex;
             justify-content: center;
             align-items: center;
+            padding-top: 60px; /* Space for fixed navbar */
         }
+
+        /* Navbar Styling */
         .navbar {
             position: fixed;
             top: 0;
@@ -32,111 +35,119 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            background: #ffffff; /* White background */
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05); /* Subtle shadow */
             z-index: 50;
         }
 
         .navbar .brand {
             font-size: 20px;
             font-weight: 600;
-            color: white;
+            color: #0d6efd; /* Blue brand color */
             text-decoration: none;
         }
 
         .navbar .nav-link {
-            color: white;
-            font-size: 16px;
+            color: #555; /* Dark grey text */
+            font-size: 15px;
             text-decoration: none;
             font-weight: 500;
-            padding: 6px 14px;
+            padding: 8px 16px;
             border-radius: 8px;
             transition: 0.3s;
         }
 
         .navbar .nav-link:hover {
-            background: rgba(255, 255, 255, 0.3);
+            background: #f1f3f5;
+            color: #0d6efd;
         }
 
+        /* Wrapper & Card */
         .register-wrapper {
             width: 100%;
-            max-width: 900px;
-            display: flex;
-            gap: 30px;
+            max-width: 600px; /* Made slightly narrower for a cleaner look */
             padding: 20px;
-            animation: fadeIn 0.7s ease-in-out;
+            animation: fadeIn 0.5s ease-in-out;
         }
 
         .register-card {
-            flex: 2;
-            background: rgba(255, 255, 255, 0.12);
-            backdrop-filter: blur(12px);
-            padding: 35px;
-            color: #fff;
-            border-radius: 18px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            background: #ffffff; /* Solid White */
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08); /* Soft shadow */
+            border: 1px solid #eaeaea;
         }
 
-        .info-section {
-            flex: 1;
-            color: #fff;
-        }
-
-        .info-box {
-            background: rgba(255,255,255,0.12);
-            backdrop-filter: blur(12px);
-            border-radius: 14px;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-
+        /* Form Controls */
         .form-control {
-            border-radius: 10px;
-            background: rgba(255,255,255,0.15);
-            color: #fff;
-            border: 1px solid rgba(255,255,255,0.25);
+            border-radius: 8px;
+            background: #ffffff;
+            color: #333;
+            border: 1px solid #ced4da; /* Standard grey border */
+            padding: 10px 15px;
         }
 
         .form-control::placeholder {
-            color: #eee;
+            color: #aaa;
         }
 
         .form-control:focus {
-            background: rgba(255,255,255,0.2);
-            box-shadow: none;
-            border-color: #fff;
-            color: #fff;
+            background: #fff;
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.15);
         }
 
+        /* Buttons & Links */
         .btn-primary {
+            background-color: #0d6efd;
+            border: none;
             padding: 12px;
-            border-radius: 12px;
+            border-radius: 8px;
             font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .btn-primary:hover {
+            background-color: #0b5ed7;
+            transform: translateY(-1px);
         }
 
         .error-message {
-            color: #ffb3b3;
-            font-size: 14px;
+            color: #dc3545; /* Standard Red */
+            font-size: 13px;
+            margin-top: 4px;
+            display: block;
         }
 
         label {
             font-weight: 500;
             margin-bottom: 6px;
+            color: #495057;
+            font-size: 14px;
         }
 
         a {
-            color: #fff;
-            text-decoration: underline;
+            color: #0d6efd;
+            text-decoration: none;
+            font-weight: 500;
         }
 
         a:hover {
-            opacity: 0.8;
+            text-decoration: underline;
+        }
+
+        h1 {
+            color: #212529;
+            font-weight: 600;
+        }
+
+        p.text-center {
+            color: #6c757d;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(25px); }
+            from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
     </style>
@@ -148,13 +159,12 @@
     <a href="<%= LINK_LANDING %>" class="brand">🛒 Dropshipping Store</a>
     <a href="<%= LINK_LANDING %>" class="nav-link">← Back to Home</a>
 </div>
-<div class="register-wrapper">
 
-    <!-- Form Section -->
+<div class="register-wrapper">
     <div class="register-card">
 
-        <h1 class="mb-1 text-center">Create Account</h1>
-        <p class="text-center mb-4">Join our dropshipping management system</p>
+        <h1 class="mb-2 text-center">Create Account</h1>
+        <p class="text-center mb-4">Start your dropshipping journey today</p>
 
         <% 
             String error = request.getParameter("error");
@@ -175,67 +185,66 @@
         <form id="registerForm" action="<%= API_AUTH_REGISTER %>" method="POST">
 
             <div class="mb-3">
-                <label>Full Name *</label>
-                <input type="text" name="fullName" id="fullName" class="form-control" placeholder="John Doe" required>
+                <label>Full Name</label>
+                <input type="text" name="fullName" id="fullName" class="form-control" placeholder="e.g. John Doe" required>
                 <span id="fullNameError" class="error-message"></span>
             </div>
 
             <div class="mb-3">
-                <label>Email *</label>
-                <input type="email" name="email" id="email" class="form-control" placeholder="you@example.com" required>
+                <label>Email Address</label>
+                <input type="email" name="email" id="email" class="form-control" placeholder="e.g. john@example.com" required>
                 <span id="emailError" class="error-message"></span>
             </div>
 
             <div class="mb-3">
-                <label>Username *</label>
-                <input type="text" name="username" id="username" class="form-control" placeholder="yourusername" minlength="4" maxlength="20" required>
+                <label>Username</label>
+                <input type="text" name="username" id="username" class="form-control" placeholder="4-20 characters" minlength="4" maxlength="20" required>
                 <span id="usernameError" class="error-message"></span>
             </div>
 
             <div class="row">
                 <div class="col-md-6 mb-3">
-                    <label>Password *</label>
-                    <input type="password" name="password" id="password" class="form-control" minlength="6" placeholder="Create password" required>
+                    <label>Password</label>
+                    <input type="password" name="password" id="password" class="form-control" minlength="6" placeholder="Min 6 chars" required>
                     <span id="passwordError" class="error-message"></span>
                 </div>
 
                 <div class="col-md-6 mb-3">
-                    <label>Confirm Password *</label>
-                    <input type="password" id="confirmPassword" class="form-control" placeholder="Confirm" required>
+                    <label>Confirm Password</label>
+                    <input type="password" id="confirmPassword" class="form-control" placeholder="Re-enter password" required>
                     <span id="confirmPasswordError" class="error-message"></span>
                 </div>
             </div>
 
-            <div class="mb-3">
-                <label>
-                    <input type="checkbox" id="terms" required> I agree to the Terms & Privacy Policy
-                </label>
-                <span id="termsError" class="error-message d-block"></span>
+            <div class="mb-4">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="terms" required>
+                    <label class="form-check-label" for="terms" style="font-weight: 400; font-size: 14px;">
+                        I agree to the <a href="#">Terms</a> & <a href="#">Privacy Policy</a>
+                    </label>
+                </div>
+                <span id="termsError" class="error-message"></span>
             </div>
 
             <button type="submit" class="btn btn-primary w-100">Create Account</button>
 
-            <p class="text-center mt-3">
+            <p class="text-center mt-4 mb-0" style="font-size: 14px;">
                 Already have an account?  
                 <a href="<%= LINK_LOGIN %>">Sign in here</a>
             </p>
 
         </form>
     </div>
-
-
-
 </div>
 
 <script>
+    // Keep your existing script exactly the same, no changes needed for logic
     document.getElementById('registerForm').addEventListener('submit', async function(e) {
-        e.preventDefault(); // Always prevent default form submission
+        e.preventDefault(); 
 
-        // 1. Reset error messages
         document.querySelectorAll('.error-message').forEach(el => el.textContent = '');
         let isValid = true;
 
-        // 2. Get form values
         const fullName = document.getElementById('fullName').value.trim();
         const email = document.getElementById('email').value.trim();
         const username = document.getElementById('username').value.trim();
@@ -243,7 +252,6 @@
         const confirmPassword = document.getElementById('confirmPassword').value;
         const terms = document.getElementById('terms').checked;
 
-        // 3. Client-side Validation
         if (fullName.length < 2) {
             document.getElementById('fullNameError').textContent = "Full name must be at least 2 characters";
             isValid = false;
@@ -278,13 +286,10 @@
 
         if (!isValid) return;
 
-        // 4. Send as JSON (The Fix)
         try {
             const response = await fetch('<%= API_AUTH_REGISTER %>', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     fullName: fullName,
                     email: email,
@@ -296,10 +301,8 @@
             const data = await response.json();
 
             if (response.ok && data.success) {
-                // Success: Redirect to login
                 window.location.href = '<%= LINK_LOGIN %>?success=Account created successfully! Please login.';
             } else {
-                // Error: Display message from backend
                 alert(data.message || "Registration failed");
             }
         } catch (error) {

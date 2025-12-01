@@ -367,7 +367,7 @@
                     </div>
 
                     <form id="cartForm-${p.id}"
-                          action="${pageContext.request.contextPath}/cart" method="post"
+                          action="${pageContext.request.contextPath}/cart.jsp" method="post"
                           style="margin-top: 15px;">
                         <input type="hidden" name="action" value="add">
                         <input type="hidden" name="productId" value="${p.id}">
@@ -402,7 +402,7 @@
                     </c:choose>
 
                     <c:if test="${p.stock > 0}">
-                        <form action="${pageContext.request.contextPath}/cart" method="post"
+                        <form action="${pageContext.request.contextPath}/cart.jsp" method="post"
                               style="margin-top: 15px;">
                             <input type="hidden" name="action" value="add">
                             <input type="hidden" name="productId" value="${p.id}">

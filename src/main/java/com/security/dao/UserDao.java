@@ -1,27 +1,16 @@
 package com.security.dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.HashSet;
 
+import com.onlinestore.util.DBConnection;
 import com.security.model.User;
 import com.security.util.PasswordUtil;
 
 public class UserDao {
-
-    // NEW - update to use pooler
-    String url = "jdbc:postgresql://aws-1-ap-southeast-1.pooler.supabase.com:6543/postgres?prepareThreshold=0";
-    String user = "postgres.kdvnogkvnpvbnedsmoui";  // Must include project reference
-    String pass = "thisisnotai123";
-
-
-    private Connection getConnection() throws Exception {
-        Class.forName("org.postgresql.Driver");
-        return DriverManager.getConnection(url, user, pass);
-    }
 
     /**
      * Find user by username
@@ -30,7 +19,8 @@ public class UserDao {
      */
     public User findByUsername(String username) {
         String sql = "SELECT * FROM users WHERE username=?";
-        try (Connection conn = getConnection();
+        // ERROR FIX: Open connection ONCE here
+        try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, username);
@@ -45,8 +35,9 @@ public class UserDao {
                 u.setFullName(rs.getString("full_name"));
                 u.setEnabled(rs.getBoolean("enabled"));
 
-                // Fetch roles
-                u.setRoles(findRolesByUserId(u.getId()));
+                // ERROR FIX: Pass the existing connection to fetch roles
+                // This prevents opening a second connection while the first is active
+                u.setRoles(findRolesByUserId(conn, u.getId()));
 
                 return u;
             }
@@ -64,7 +55,7 @@ public class UserDao {
      */
     public User findById(Long userId) {
         String sql = "SELECT * FROM users WHERE id=?";
-        try (Connection conn = getConnection();
+        try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setLong(1, userId);
@@ -79,8 +70,8 @@ public class UserDao {
                 u.setFullName(rs.getString("full_name"));
                 u.setEnabled(rs.getBoolean("enabled"));
 
-                // Fetch roles
-                u.setRoles(findRolesByUserId(u.getId()));
+                // ERROR FIX: Reuse connection
+                u.setRoles(findRolesByUserId(conn, u.getId()));
 
                 return u;
             }
@@ -97,7 +88,7 @@ public class UserDao {
      */
     public boolean usernameExists(String username) {
         String sql = "SELECT COUNT(*) as count FROM users WHERE username=?";
-        try (Connection conn = getConnection();
+        try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, username);
@@ -119,7 +110,7 @@ public class UserDao {
      */
     public boolean emailExists(String email) {
         String sql = "SELECT COUNT(*) as count FROM users WHERE email=?";
-        try (Connection conn = getConnection();
+        try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, email);
@@ -142,33 +133,23 @@ public class UserDao {
     public boolean save(User user) {
         // Validate input
         if (user.getUsername() == null || user.getUsername().trim().isEmpty()) {
-            System.out.println("Username cannot be empty");
             return false;
         }
         if (user.getPassword() == null || user.getPassword().trim().isEmpty()) {
-            System.out.println("Password cannot be empty");
             return false;
         }
         if (user.getEmail() == null || user.getEmail().trim().isEmpty()) {
-            System.out.println("Email cannot be empty");
             return false;
         }
 
-        // Check if username already exists
-        if (usernameExists(user.getUsername())) {
-            System.out.println("Username already exists");
-            return false;
-        }
-
-        // Check if email already exists
-        if (emailExists(user.getEmail())) {
-            System.out.println("Email already exists");
+        // Check if username/email already exists
+        if (usernameExists(user.getUsername()) || emailExists(user.getEmail())) {
             return false;
         }
 
         String sql = "INSERT INTO users (username, password, email, full_name, enabled) VALUES (?, ?, ?, ?, ?)";
         
-        try (Connection conn = getConnection();
+        try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             // Hash password before storing
@@ -178,7 +159,7 @@ public class UserDao {
             ps.setString(2, hashedPassword);
             ps.setString(3, user.getEmail());
             ps.setString(4, user.getFullName() != null ? user.getFullName() : "");
-            ps.setBoolean(5, true); // Enable user by default
+            ps.setBoolean(5, true); 
 
             int affectedRows = ps.executeUpdate();
 
@@ -187,10 +168,8 @@ public class UserDao {
                 try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
                     if (generatedKeys.next()) {
                         user.setId(generatedKeys.getLong(1));
-                        
                         // Assign default role (USER)
                         assignRoleToUser(user.getId(), "USER");
-                        
                         return true;
                     }
                 }
@@ -213,7 +192,7 @@ public class UserDao {
         }
         sql.append(" WHERE username=?");
 
-        try (Connection conn = getConnection();
+        try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql.toString())) {
 
             ps.setString(1, user.getEmail());
@@ -237,14 +216,11 @@ public class UserDao {
 
     /**
      * Assign role to user
-     * @param userId The user ID
-     * @param role The role to assign
-     * @return true if successful, false otherwise
      */
     public boolean assignRoleToUser(Long userId, String role) {
         String sql = "INSERT INTO user_roles (user_id, role) VALUES (?, ?)";
         
-        try (Connection conn = getConnection();
+        try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setLong(1, userId);
@@ -258,16 +234,18 @@ public class UserDao {
     }
 
     /**
-     * Fetch user roles from database
+     * ERROR FIX: Fetch user roles reusing the existing connection
+     * @param conn The active database connection
      * @param userId The user ID
      * @return HashSet of role names
      */
-    private HashSet<String> findRolesByUserId(Long userId) {
+    private HashSet<String> findRolesByUserId(Connection conn, Long userId) {
         HashSet<String> roles = new HashSet<>();
         String sql = "SELECT role FROM user_roles WHERE user_id=?";
 
-        try (Connection conn = getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        // Do NOT use try-with-resources on 'conn' here, or it will close the connection
+        // for the caller method too. Only close the PreparedStatement.
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setLong(1, userId);
             ResultSet rs = ps.executeQuery();
